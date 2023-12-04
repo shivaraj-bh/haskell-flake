@@ -35,9 +35,9 @@ lib.pipe root
     (x: log.traceDebug "${name}.mkNewStorePath ${x.outPath}" x)
 
     (root:
-      if lib.pathExists (lib.concatStringsSep "/" [ root "custom-default.nix" ])
+      if lib.pathExists (lib.concatStringsSep "/" [ root "default.nix" ])
       then
-        let pkgInfo = self.callPackage (lib.concatStringsSep "/" [ root "custom-default.nix" ]) { };
+        let pkgInfo = self.callPackage (lib.concatStringsSep "/" [ root "default.nix" ]) { };
         in pkgInfo
       else
         let pkgInfo = self.callCabal2nix name root { };
