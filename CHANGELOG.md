@@ -2,9 +2,29 @@
 
 ## Unreleased
 
-- #210: Add `extraLibraries` to `settings` module.
-- #215: Improved debug logging.
-- #216: Remove `debug` option (pass `--trace-verbose` to nix instead)
+- Enhancements
+  - Support `meta.description` in flake apps. Requires newer version of flake-parts.
+  - `settings` module:
+    - #384: Add `stan`
+
+## 0.5.0 (Jun 24, 2024)
+
+- Breaking changes
+  - #221: Switch from `buildFromCabalSdist` to `buildFromSdist`, to allow using non-standard package sets (wherein `cabal-install` is otherwise built without using user's overrides)
+    - #253: Enable controlling `buildFromSdist` through `settings.<name>.buildFromSdist`. (This was turned off by default originally, but was turned on by default in #286, limited to packages defined by haskell-flake in #298 & #306)
+- Enhancements
+  - `settings` module:
+    - #210: Add `extraLibraries` to `settings` module.
+    - #225: Add `removeReferencesTo` to `settings` module.
+  - #275: Fine grained settings defaults via `defaults.settings.{local, defined, all}`
+  - #277: Add `otherOverlays` option to add custom Haskell package overlays.
+  - #215: Improved debug logging.
+    - #216: Remove `debug` option (pass `--trace-verbose` to nix instead)
+- Fixes
+  - #222: Improve `cabal.project` parser by handling files not ending with newline
+  - #271, #223: Change all `types.attrsOf` to `types.lazyAttrsOf`. If you use `lib.mkIf` for `attrsOf` values (not `submodule` options), use `lib.optionalAttrs` instead. This fixes #270 (`basePackages`) and improves performance.
+  - #296: Fix `removeConfigureFlags` to actually work.
+  - #297: Fix `brokenVersions` to actually work.
 
 ## 0.4.0 (Aug 22, 2023)
 
