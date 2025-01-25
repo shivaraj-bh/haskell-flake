@@ -55,6 +55,13 @@ name: cfg:
 # If 'source' is a path, we treat it as such. Otherwise, we assume it's a version (from hackage).
 if lib.types.path.check cfg.source
 then
-  callCabal2NixUnlessCached name (mkNewStorePath name cfg.source) cfg.cabal2NixFile
-else
-  callHackage name cfg.source
+  let
+    drv = callCabal2NixUnlessCached name (mkNewStorePath name cfg.source) cfg.cabal2NixFile;
+    drvs = map (executable_name: pkgs.haskell.lib.setBuildTarget executable_name drv) cfg.executable_names
+      join_drvs = pkgs.symlinkJoin { inherit name;
+    paths = drvs;
+    };
+    in
+    join_drvs
+      else
+      callHackage name cfg.source

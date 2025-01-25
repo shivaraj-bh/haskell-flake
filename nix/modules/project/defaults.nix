@@ -60,6 +60,7 @@ in
               # The rest of the module options are not defined, because we'll use
               # the submodule defaults.
               source = path;
+              executable_names = haskel-parsers.getCabalExecutables path;
             }))
           ];
         in
